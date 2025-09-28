@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Flavors - Pizza Paradise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff9a00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .logo:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 11;
+        }
+
+        nav {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 10;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ff9a00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 154, 0, 0.4);
+        }
+
+        .page-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .breadcrumb {
+            font-size: 1.2rem;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .breadcrumb a {
+            color: #ff9a00;
+            text-decoration: none;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Services Intro */
+        .services-intro {
+            padding: 80px 20px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff7b00;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: #ff7b00;
+        }
+
+        .services-intro p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        /* Pizza Cards Grid */
+        .pizza-grid {
+            padding: 40px 20px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .pizza-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .pizza-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pizza-card:nth-child(odd):hover {
+            transform: translateY(-15px) rotate(2deg);
+        }
+
+        .pizza-card:nth-child(even):hover {
+            transform: translateY(-15px) rotate(-2deg);
+        }
+
+        .pizza-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .pizza-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pizza-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .pizza-card:hover .pizza-img img {
+            transform: scale(1.1);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #ff7b00;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+
+        .pizza-info {
+            padding: 20px;
+        }
+
+        .pizza-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .pizza-info p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .ingredients {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .ingredient-tag {
+            background-color: #fff5e6;
+            color: #ff7b00;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff7b00;
+        }
+
+        .order-btn {
+            display: inline-block;
+            background-color: #ff7b00;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background-color: #ff9a00;
+            transform: scale(1.1);
+        }
+
+        /* Special Services Section */
+        .special-services {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1555072956-7758afb20e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .services-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .service-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 154, 0, 0.3);
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff9a00;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        /* Custom Pizza Section */
+        .custom-pizza {
+            padding: 80px 20px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .custom-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .option {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .option i {
+            font-size: 2.5rem;
+            color: #ff7b00;
+            margin-bottom: 10px;
+        }
+
+        .custom-btn {
+            display: inline-block;
+            background-color: #ff7b00;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-btn:hover {
+            background-color: #ff9a00;
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ff9a00;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff9a00;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #ff9a00;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            header {
+                height: 80vh;
+                min-height: 500px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+                left: 20px;
+                top: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.95);
+                transition: right 0.3s ease;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 15px 0;
+            }
+            
+            nav a {
+                font-size: 1.3rem;
+                padding: 12px 25px;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+                margin-top: 60px;
+            }
+            
+            .breadcrumb {
+                font-size: 1rem;
+            }
+            
+            .services-intro, .pizza-grid, .special-services, .custom-pizza {
+                padding: 50px 15px;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .services-intro p {
+                font-size: 1.1rem;
+            }
+            
+            .service-card, .pizza-card {
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .custom-options {
+                gap: 15px;
+            }
+            
+            .option {
+                width: 130px;
+                padding: 15px;
+            }
+            
+            .option i {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .services-intro p {
+                font-size: 1rem;
+            }
+            
+            .pizza-info h3 {
+                font-size: 1.3rem;
+            }
+            
+            .pizza-info p {
+                font-size: 0.9rem;
+            }
+            
+            .price {
+                font-size: 1.3rem;
+            }
+            
+            .service-card {
+                padding: 20px;
+            }
+            
+            .service-card i {
+                font-size: 2.5rem;
+            }
+            
+            .service-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .custom-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .option {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="index.html" class="logo">Pizza Paradise</a>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <h1 class="page-title">Our Flavors</h1>
+        <p class="breadcrumb"><a href="index.html">Home</a> / Services</p>
+    </header>
+
+    <!-- Services Intro -->
+    <section class="services-intro">
+        <h2 class="section-title">Delicious Pizza Varieties</h2>
+        <p>At Pizza Paradise, we take pride in crafting the perfect pizza for every palate. From classic favorites to innovative creations, our menu offers something for everyone. Each pizza is made with our signature dough, fresh ingredients, and baked to perfection in our wood-fired ovens.</p>
+    </section>
+
+    <!-- Pizza Cards Grid -->
+    <section class="pizza-grid">
+        <div class="grid-container">
+            <!-- Margherita -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Margherita Pizza">
+                    <div class="popular-badge">Most Popular</div>
+                </div>
+                <div class="pizza-info">
+                    <h3>Margherita</h3>
+                    <p>The classic Italian pizza with simple, fresh ingredients that let the quality shine through.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Fresh Basil</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$14.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pepperoni -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1627626775846-122b778965ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pepperoni Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Pepperoni</h3>
+                    <p>A crowd-pleaser with spicy pepperoni and melted cheese on our signature tomato sauce.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Pepperoni</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$16.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vegetarian -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Vegetarian Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Garden Delight</h3>
+                    <p>Loaded with fresh vegetables for a healthy and flavorful vegetarian option.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Bell Peppers</span>
+                        <span class="ingredient-tag">Mushrooms</span>
+                        <span class="ingredient-tag">Olives</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$15.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BBQ Chicken -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="BBQ Chicken Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>BBQ Chicken</h3>
+                    <p>Tangy BBQ sauce, grilled chicken, red onions, and cilantro create a flavor explosion.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">BBQ Sauce</span>
+                        <span class="ingredient-tag">Grilled Chicken</span>
+                        <span class="ingredient-tag">Red Onions</span>
+                        <span class="ingredient-tag">Cilantro</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$17.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hawaiian -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hawaiian Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Hawaiian</h3>
+                    <p>The perfect sweet and savory combination of ham and pineapple on a cheesy base.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Ham</span>
+                        <span class="ingredient-tag">Pineapple</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$16.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meat Lovers -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Meat Lovers Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Meat Lovers</h3>
+                    <p>Packed with pepperoni, sausage, ham, and bacon for the ultimate meat feast.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Pepperoni</span>
+                        <span class="ingredient-tag">Sausage</span>
+                        <span class="ingredient-tag">Ham</span>
+                        <span class="ingredient-tag">Bacon</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$18.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Four Cheese -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Four Cheese Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Four Cheese</h3>
+                    <p>A creamy blend of mozzarella, gorgonzola, parmesan, and fontina cheeses.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Gorgonzola</span>
+                        <span class="ingredient-tag">Parmesan</span>
+                        <span class="ingredient-tag">Fontina</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$16.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Supreme -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Supreme Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Supreme</h3>
+                    <p>The ultimate combination of pepperoni, sausage, mushrooms, peppers, and onions.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Pepperoni</span>
+                        <span class="ingredient-tag">Sausage</span>
+                        <span class="ingredient-tag">Mushrooms</span>
+                        <span class="ingredient-tag">Bell Peppers</span>
+                        <span class="ingredient-tag">Onions</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$17.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Buffalo Chicken -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Buffalo Chicken Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Buffalo Chicken</h3>
+                    <p>Spicy buffalo sauce, tender chicken, red onions, and a drizzle of ranch dressing.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Buffalo Sauce</span>
+                        <span class="ingredient-tag">Grilled Chicken</span>
+                        <span class="ingredient-tag">Red Onions</span>
+                        <span class="ingredient-tag">Ranch Dressing</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$17.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mediterranean -->
+            <div class="pizza-card">
+                <div class="pizza-img">
+                    <img src="https://images.unsplash.com/photo-1544982503-9f984c14501a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mediterranean Pizza">
+                </div>
+                <div class="pizza-info">
+                    <h3>Mediterranean</h3>
+                    <p>Inspired by the flavors of the Mediterranean with feta, olives, and artichokes.</p>
+                    <div class="ingredients">
+                        <span class="ingredient-tag">Tomato Sauce</span>
+                        <span class="ingredient-tag">Mozzarella</span>
+                        <span class="ingredient-tag">Feta Cheese</span>
+                        <span class="ingredient-tag">Kalamata Olives</span>
+                        <span class="ingredient-tag">Artichokes</span>
+                        <span class="ingredient-tag">Sun-dried Tomatoes</span>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">$16.99</div>
+                        <a href="order.html" class="order-btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Services Section -->
+    <section class="special-services">
+        <h2 class="section-title" style="color: white;">Our Special Services</h2>
+        <div class="services-container">
+            <div class="service-card">
+                <i class="fas fa-home"></i>
+                <h3>Home Delivery</h3>
+                <p>Fresh, hot pizza delivered right to your door in 30 minutes or less.</p>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-utensils"></i>
+                <h3>Dine-In Experience</h3>
+                <p>Enjoy our cozy atmosphere and watch your pizza being made in our open kitchen.</p>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-birthday-cake"></i>
+                <h3>Party Packages</h3>
+                <p>Perfect for birthdays, office parties, and special events with custom menus.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Pizza Section -->
+    <section class="custom-pizza">
+        <h2 class="section-title">Create Your Own Pizza</h2>
+        <p>Can't find exactly what you're looking for? Build your perfect pizza with our custom options!</p>
+        <div class="custom-options">
+            <div class="option">
+                <i class="fas fa-bread-slice"></i>
+                <p>Crust</p>
+            </div>
+            <div class="option">
+                <i class="fas fa-cheese"></i>
+                <p>Cheese</p>
+            </div>
+            <div class="option">
+                <i class="fas fa-pepper-hot"></i>
+                <p>Toppings</p>
+            </div>
+            <div class="option">
+                <i class="fas fa-wine-bottle"></i>
+                <p>Sauces</p>
+            </div>
+        </div>
+        <a href="order.html" class="custom-btn">Build Your Pizza</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Pizza Street, Foodville</p>
+                <p><i class="fas fa-phone"></i> (302) 555-8632</p>
+                <p><i class="fas fa-envelope"></i> info@kashiflaskani23@gmail.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <p>Monday - Thursday: 11am - 10pm</p>
+                <p>Friday - Saturday: 11am - 11pm</p>
+                <p>Sunday: 12pm - 9pm</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+        
+    
+        
+        <div class="copyright">
+            <p>&copy; 2025 Pizza Paradise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                // Change icon based on menu state
+                const icon = this.querySelector('i');
+                if (nav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when a link is clicked
+            navLinks.forEach(link => {
+              link.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                });
+            });
+            
+            // Animation on scroll
+            // Pizza cards animation
+            const pizzaCards = document.querySelectorAll('.pizza-card');
+            
+            // Service cards animation
+            const serviceCards = document.querySelectorAll('.service-card');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements
+            pizzaCards.forEach(card => observer.observe(card));
+            serviceCards.forEach(card => observer.observe(card));
+            
+            // Add rotation effect to logo on hover
+            const logo = document.querySelector('.logo');
+            logo.addEventListener('mouseover', function() {
+                this.style.transform = 'rotate(5deg) scale(1.1)';
+            });
+            
+            logo.addEventListener('mouseout', function() {
+                this.style.transform = 'rotate(0) scale(1)';
+            });
+            
+            // Add staggered animation delay to pizza cards
+            pizzaCards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
